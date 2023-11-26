@@ -8,7 +8,7 @@ router.get("/ruta-de-prueba", ArticuloController.prueba);
 router.get("/cursos", ArticuloController.cursos);
 
 // Ruta util
-
-router.post("/crear", ArticuloController.crear);
+router.post("/guardar", ArticuloController.guardar);
+router.get("/listar/:ultimos?", ArticuloController.listar);
 
 module.exports = router;

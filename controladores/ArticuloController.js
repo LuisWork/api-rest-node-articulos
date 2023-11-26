@@ -28,7 +28,7 @@ const cursos = (req, res) => {
   ]);
 };
 
-const crear = (req, res) => {
+const guardar = (req, res) => {
   // Recoger parametros por POST a guardar
   let parametros = req.body;
   // Validar datos
@@ -68,10 +68,32 @@ const crear = (req, res) => {
 };
 
 // Metodo get Todos los articulos
+const listar = (req, res) => {
+  let consulta = Articulo.find({});
+  if (req.params.ultimos) {
+    consulta.limit(3);
+  }
+  consulta.sort({ fecha: -1 });
+  consulta.exec((error, articulos) => {
+    if (error || !articulos) {
+      return res.status(404).json({
+        status: "error",
+        mensaje: "No se han encontrado articulos",
+      });
+    }
+    return res.status(200).send({
+      status: "success",
+      parametro: req.params.ultimos,
+      contador: articulos.length,
+      articulos,
+    });
+  });
+};
 
 module.exports = {
   test,
   prueba,
   cursos,
-  crear,
+  guardar,
+  listar,
 };
