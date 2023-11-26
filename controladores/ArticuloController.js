@@ -67,7 +67,7 @@ const crear = (req, res) => {
   });
 };
 
-
+// Metodo get Todos los articulos
 
 module.exports = {
   test,
