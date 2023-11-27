@@ -30,5 +30,7 @@ router.post(
   [subidas.single("file0")],
   ArticuloController.subirImagen
 );
+router.get("/imagen/:fichero", ArticuloController.imagen);
+router.get("/buscar/:busqueda", ArticuloController.buscador);
 
 module.exports = router;
