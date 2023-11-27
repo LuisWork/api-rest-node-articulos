@@ -12,5 +12,6 @@ router.post("/guardar", ArticuloController.guardar);
 router.get("/listar/:ultimos?", ArticuloController.listar);
 router.get("/articulo/:id", ArticuloController.getOne);
 router.delete("/articulo/:id", ArticuloController.borrar);
+router.put("/articulo/:id", ArticuloController.editar);
 
 module.exports = router;
