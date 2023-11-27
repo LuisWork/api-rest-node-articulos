@@ -1,3 +1,4 @@
+const fs = require("fs");
 const { validarArticulos } = require("../helper/validar");
 const Articulo = require("../modelos/ArticuloModel");
 
@@ -161,6 +162,45 @@ const editar = (req, res) => {
   );
 };
 
+// Metodo para subir una imagen
+const subirImagen = (req, res) => {
+  // Configurar Multer
+  // Recoger el fichero de imagen subido
+  if (!req.file && !req.files) {
+    return res.status(404).json({
+      status: "error",
+      mensaje: "Peticion invalida",
+    });
+  }
+  // Conseguir el nombre del archivo
+  let nombreArchivo = req.file.originalname;
+  // Conseguir extension del archivo
+  let nombreArchivoSplit = nombreArchivo.split(".");
+  let archivoExtension = nombreArchivoSplit[1];
+  // Comprobar la extension
+  if (
+    archivoExtension != "png" &&
+    archivoExtension != "jpg" &&
+    archivoExtension != "jpeg" &&
+    archivoExtension != "gif"
+  ) {
+    // Borrar archivo y dar respuesta
+    fs.unlink(req.file.path, (error) => {
+      return res.status(400).json({
+        status: "error",
+        mensaje: "Imagen invalida",
+      });
+    });
+  } else {
+    // Si todo va bien actualizar el articulo correspondiente a la imagen
+    return res.status(200).json({
+      status: "success",
+      imagen: req.file,
+      mensaje: "La imagen se a subido correctamente",
+    });
+  }
+};
+
 module.exports = {
   test,
   prueba,
@@ -170,4 +210,5 @@ module.exports = {
   getOne,
   borrar,
   editar,
+  subirImagen,
 };
