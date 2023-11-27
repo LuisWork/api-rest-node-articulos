@@ -1,4 +1,4 @@
-const validator = require("validator");
+const { validarArticulos } = require("../helper/validar");
 const Articulo = require("../modelos/ArticuloModel");
 
 const test = (req, res) => {
@@ -33,13 +33,7 @@ const guardar = (req, res) => {
   let parametros = req.body;
   // Validar datos
   try {
-    let validar_titulo =
-      !validator.isEmpty(parametros.titulo) &&
-      validator.isLength(parametros.titulo, { min: 5, max: undefined });
-    let validar_contenido = !validator.isEmpty(parametros.contenido);
-    if (!validar_titulo || !validar_contenido) {
-      throw new Error("No se ha validado la informacion");
-    }
+    validarArticulos(parametros);
   } catch (error) {
     return res.status(400).json({
       status: "error",
@@ -137,19 +131,14 @@ const editar = (req, res) => {
   let parametros = req.body;
   // Validar datos
   try {
-    let validar_titulo =
-      !validator.isEmpty(parametros.titulo) &&
-      validator.isLength(parametros.titulo, { min: 5, max: undefined });
-    let validar_contenido = !validator.isEmpty(parametros.contenido);
-    if (!validar_titulo || !validar_contenido) {
-      throw new Error("No se ha validado la informacion");
-    }
+    validarArticulos(parametros);
   } catch (error) {
     return res.status(400).json({
       status: "error",
       mensaje: "Faltan datos por enviar",
     });
   }
+
   // Buscar y actualizar el articulo
   Articulo.findOneAndUpdate(
     { _id: id },
