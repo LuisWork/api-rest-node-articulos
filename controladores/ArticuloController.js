@@ -93,9 +93,9 @@ const listar = (req, res) => {
 // Metodo para obtener un articulo por ID
 const getOne = (req, res) => {
   // Recoger un id por la url
-  let _id = req.params.id;
+  let id = req.params.id;
   // Buscar el articulo
-  Articulo.findById(_id, (error, articuloEncontrado) => {
+  Articulo.findById(id, (error, articuloEncontrado) => {
     // Si no existe devolver un error
     if (error || !articuloEncontrado) {
       return res.status(404).json({
@@ -111,6 +111,24 @@ const getOne = (req, res) => {
   });
 };
 
+// Metodo para eliminar un articulo por ID
+const borrar = (req, res) => {
+  let id = req.params.id;
+  Articulo.findOneAndDelete({ _id: id }, (error, articuloEliminado) => {
+    if (error || !articuloEliminado) {
+      return res.status(404).json({
+        status: "error",
+        mensaje: "No se ha encontrado el articulo a eliminar",
+      });
+    }
+    return res.status(200).json({
+      status: "success",
+      articuloEliminado,
+      mensaje: `El articulo a sido eliminado correctamente`,
+    });
+  });
+};
+
 module.exports = {
   test,
   prueba,
@@ -118,4 +136,5 @@ module.exports = {
   guardar,
   listar,
   getOne,
+  borrar,
 };
