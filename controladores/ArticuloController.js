@@ -90,10 +90,32 @@ const listar = (req, res) => {
   });
 };
 
+// Metodo para obtener un articulo por ID
+const getOne = (req, res) => {
+  // Recoger un id por la url
+  let _id = req.params.id;
+  // Buscar el articulo
+  Articulo.findById(_id, (error, articuloEncontrado) => {
+    // Si no existe devolver un error
+    if (error || !articuloEncontrado) {
+      return res.status(404).json({
+        status: "error",
+        mensaje: "No se ha encontrado el articulo",
+      });
+    }
+    // Si existe devolver el resultado
+    return res.status(200).json({
+      status: "success",
+      articuloEncontrado,
+    });
+  });
+};
+
 module.exports = {
   test,
   prueba,
   cursos,
   guardar,
   listar,
+  getOne,
 };

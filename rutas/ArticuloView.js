@@ -10,5 +10,6 @@ router.get("/cursos", ArticuloController.cursos);
 // Ruta util
 router.post("/guardar", ArticuloController.guardar);
 router.get("/listar/:ultimos?", ArticuloController.listar);
+router.get("/articulo/:id", ArticuloController.getOne);
 
 module.exports = router;
